@@ -1,0 +1,4 @@
+    - Login: primera actividad
+    - Feed: reciclerview
+    - Comentarios: nueva vista
+    - Detalles: nueva vista
