@@ -1,3 +1,19 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="height_feed_image">400dp</dimen>
+
+    <dimen name="space_tiny">5dp</dimen>
+    <dimen name="space_medium">10dp</dimen>
+    <dimen name="space_large">14dp</dimen>
+    <dimen name="space_huge">25dp</dimen>
+
+    <dimen name="font_extra_huge">65sp</dimen>
+    <dimen name="font_huge">35sp</dimen>
+    <dimen name="font_title">19sp</dimen>
+    <dimen name="font_content">15sp</dimen>
+    <dimen name="font_small">11sp</dimen>
+    <dimen name="font_tiny">9sp</dimen>
+
+    <dimen name="margin_container">13dp</dimen>
 </resources>

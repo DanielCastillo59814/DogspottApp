@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">DogspottApp</string>
+
     <string name="action_settings">Settings</string>
+    <string name="action_again">Reintentar</string>
+
+    <string name="url_api_base">http://dogspott.000webhostapp.com/</string>
+
+    <string name="log_server_error">Ocurrió un error en el servidor. Por favor, inténtalo más tarde</string>
+    <string name="log_network_unavailable">Necesitas conexión a internet para poder continuar</string>
+
+    <string name="title_activity_feed">FeedActivity</string>
+
+    <string name="description_like">Like</string>
+    <string name="description_profile">Profile</string>
+
+    <string name="text_no_feed">No hay imágenes que mostrar. Refresca la lista con un Swipe</string>
 </resources>
