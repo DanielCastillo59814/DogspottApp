@@ -9,4 +9,5 @@
 
     <color name="light_gray">#f0f0f0</color>
     <color name="dark_green">#000d02</color>
+    <color name="dog_img">#00FFFFFF</color>
 </resources>
