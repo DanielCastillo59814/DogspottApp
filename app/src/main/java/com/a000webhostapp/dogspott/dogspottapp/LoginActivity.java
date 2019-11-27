@@ -2,6 +2,8 @@ package com.a000webhostapp.dogspott.dogspottapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.JsonReader;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +18,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,6 +60,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 if(!response.contains("failed")) {
+                    JsonObject obj = (JsonObject) new JsonParser().parse(response);
+                    JsonElement keye = obj.get("key");
+                    String key = keye.getAsString();
+                    DetailsActivity.KEY = key;
                     Intent intent = new Intent(getApplicationContext(), PrincipalActivity.class);
                     startActivity(intent);
                 } else {
