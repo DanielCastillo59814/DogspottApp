@@ -2,8 +2,11 @@ package com.a000webhostapp.dogspott.dogspottapp;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -55,6 +58,10 @@ public class DetailsActivity extends AppCompatActivity {
 
         String url = "http://dogspott.000webhostapp.com/detalles.php?key=" + KEY + "&dog_id=" + DOG_ID;
 
+        Log.d("jajajaj", "bbbbasdsa");
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -72,17 +79,23 @@ public class DetailsActivity extends AppCompatActivity {
                         String s = "Usuario " + comment.get("user_id").getAsString() + " commento:\n" +
                                 "      " + comment.get("text").getAsString() + ".";
                         comentarios.add(s);
-                    }
+                    };
 
                     InputStream is = null;
                     try {
-                        is = (InputStream) new URL(dog_url).getContent();
+                        dog_url = dog_url.replaceAll("\\/\\/", "//");
+                        URL newurl = new URL(dog_url);
+
+                        Bitmap mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+                        dog_img.setImageBitmap(mIcon_val);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
-                    dog_img.setImageBitmap(BitmapFactory.decodeStream(is));
+
                     details_txt.setText("Nombre: " + name + ". Likes: " + likes);
+                    if (comentarios.isEmpty())
+                        comments_field.setText("No hay comentarios...");
                     for (String com : comentarios) {
                         comments_field.setText(comments_field.getText() + "\n" + com);
                     }
