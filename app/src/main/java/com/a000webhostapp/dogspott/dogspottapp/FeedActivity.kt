@@ -95,6 +95,7 @@ class FeedActivity : AppCompatActivity() {
                     v.findViewById<TextView>(R.id.text_name).text = it.name
                     GlideApp.with(this@FeedActivity)
                         .load(it.image)
+                        .centerCrop()
                         .placeholder(R.drawable.placeholder_gray)
                         .into(v.findViewById(R.id.image_profile))
 

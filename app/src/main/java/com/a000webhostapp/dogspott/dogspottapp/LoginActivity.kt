@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener {
-            Properties.setProperty(this, Properties.USER_KEY, "lakjsdf")
+            Properties.setProperty(this, Properties.USER_KEY, "73796e0f140f42e61d8d166bafe364546fe22dccc1ac16e917af86ff8c22a998")
             startActivity(Intent(this@LoginActivity, FeedActivity::class.java))
         }
     }
