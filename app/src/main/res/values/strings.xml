@@ -15,4 +15,21 @@
     <string name="description_profile">Profile</string>
 
     <string name="text_no_feed">No hay imágenes que mostrar. Refresca la lista con un Swipe</string>
+    <string name="text_registrate">Regístrate en nuestra comunidad</string>
+    <string name="text_ok">Correcto</string>
+    <string name="text_usuario_registrado">Tu usuario ha sido registrado. Ingresa sesión con los mismos datos.</string>
+    <string name="text_something_wrong">Algo salió mal</string>
+    <string name="text_confirm_logout">¿Quieres cerrar las sesión actual?</string>
+
+    <string name="title_activity_signup">Regístrate</string>
+
+    <string name="form_usuario">Usuario</string>
+    <string name="form_contrasena">Contaseña</string>
+
+    <string name="action_registrarse">Registrarse</string>
+    <string name="action_aceptar">Aceptar</string>
+    <string name="action_cancelar">Cancelar</string>
+    <string name="action_logout">Cerrar sesión</string>
+
+    <string name="validation_empty">Debes llenar este campo para continuar</string>
 </resources>

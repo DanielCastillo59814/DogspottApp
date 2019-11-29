@@ -1,5 +1,9 @@
 package com.a000webhostapp.dogspott.dogspottapp.retro.models
 
+data class SimpleResponse(
+    var status:String?,
+    var message:String?
+)
 
 data class Dog(
     var idDog:String?,

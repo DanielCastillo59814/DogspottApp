@@ -7,14 +7,14 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.a000webhostapp.dogspott.dogspottapp.retro.models.Dog;
+import androidx.appcompat.widget.Toolbar;
+import com.a000webhostapp.dogspott.dogspottapp.utilities.Properties;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,11 +23,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,19 +42,26 @@ public class DetailsActivity extends AppCompatActivity {
     TextView details_txt;
     TextView comments_field;
 
-    public static String DOG_ID = "3327";
-    public static String KEY;
+    public static final String DOG_ID = "dogid";
 
+    private String dog_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(details);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dog_img = findViewById(R.id.dog_img);
         details_txt = findViewById(R.id.details_txt);
         comments_field = findViewById(R.id.comments);
 
-        String url = "http://dogspott.000webhostapp.com/detalles.php?key=" + KEY + "&dog_id=" + DOG_ID;
+        Intent params = getIntent();
+        dog_id = params.getStringExtra(DOG_ID);
+
+        String url = "http://dogspott.000webhostapp.com/detalles.php?key=" + Properties.Companion.getProperty(this, Properties.USER_KEY) + "&dog_id=" + dog_id;
 
         Log.d("jajajaj", "bbbbasdsa");
 
@@ -111,8 +116,8 @@ public class DetailsActivity extends AppCompatActivity {
         }){
             @Override protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("key", KEY);
-                parameters.put("dog_id", DOG_ID);
+                parameters.put("key", Properties.Companion.getProperty(DetailsActivity.this, Properties.USER_KEY));
+                parameters.put("dog_id", dog_id);
                 return super.getParams();
             }
         };
@@ -120,5 +125,9 @@ public class DetailsActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
+    }
 }

@@ -6,24 +6,19 @@
         android:layout_height="match_parent"
         tools:context=".LoginActivity">
 
-    <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:gravity="center"
                 android:orientation="vertical">
 
             <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="401dp"
-                    android:layout_height="213dp"
-                    android:layout_marginBottom="40dp"
-                    app:srcCompat="@drawable/dog_logo" />
+                    android:layout_width="match_parent"
+                    android:layout_height="187dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/dog_logo"/>
 
             <EditText
                     android:id="@+id/edtUsuario"
@@ -32,11 +27,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:backgroundTint="@android:color/darker_gray"
-                    android:drawableLeft="@drawable/footprint"
+                    android:drawableStart="@drawable/footprint"
+                    android:drawablePadding="15dp"
                     android:ems="10"
                     android:hint="Usuario"
-                    android:inputType="textPersonName"
-                    android:paddingLeft="5dp" />
+                    android:inputType="textPersonName"/>
 
             <EditText
                     android:id="@+id/edtPassword"
@@ -46,7 +41,8 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="8dp"
                     android:backgroundTint="@android:color/darker_gray"
-                    android:drawableLeft="@drawable/lock"
+                    android:drawableStart="@drawable/lock"
+                    android:drawablePadding="15dp"
                     android:ems="10"
                     android:hint="Contraseña"
                     android:inputType="textPassword"
@@ -64,7 +60,15 @@
                     android:textColor="#FFF"
                     android:textSize="18sp" />
 
+            <Button android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:id="@+id/btnSignup"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="15dp"
+                android:text="Regístrate"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:textSize="18sp"/>
+
         </LinearLayout>
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

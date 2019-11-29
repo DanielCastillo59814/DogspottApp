@@ -2,15 +2,14 @@ package com.a000webhostapp.dogspott.dogspottapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.JsonReader;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.a000webhostapp.dogspott.dogspottapp.utilities.Properties;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,11 +35,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Properties.Companion.containsProperty(this, Properties.USER_KEY)) {
+            startActivity(new Intent(this, FeedActivity.class));
+            finish();
+        }
         setContentView(activity_login);
         edtUsuario = findViewById(R.id.edtUsuario);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
-
+        Button btnRegistrate = findViewById(R.id.btnSignup);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +56,12 @@ public class LoginActivity extends AppCompatActivity {
                 validaUsuario(URL);
             }
         });
+        btnRegistrate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+            }
+        });
     }
 
     private void validaUsuario(String URL) {
@@ -63,8 +72,8 @@ public class LoginActivity extends AppCompatActivity {
                     JsonObject obj = (JsonObject) new JsonParser().parse(response);
                     JsonElement keye = obj.get("key");
                     String key = keye.getAsString();
-                    DetailsActivity.KEY = key;
-                    Intent intent = new Intent(getApplicationContext(), PrincipalActivity.class);
+                    Properties.Companion.setProperty(LoginActivity.this, Properties.USER_KEY, key);
+                    Intent intent = new Intent(getApplicationContext(), FeedActivity.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();

@@ -11,13 +11,24 @@
                    android:contentDescription="@string/description_profile"/>
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:layout_margin="@dimen/margin_container"
-                      android:orientation="horizontal">
+                      android:orientation="horizontal"
+        android:gravity="center">
             <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                       android:id="@+id/text_name"
                       android:textSize="@dimen/font_title"
+                      android:text="askdfjaksdf"
                       android:textColor="@color/dark_green"
                       android:layout_weight="1"/>
-            <ImageButton android:layout_width="@dimen/font_title" android:layout_height="@dimen/font_title"
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/lblLikes"
+                android:text="0"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/font_title"
+            android:layout_marginEnd="@dimen/space_medium"/>
+            <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:id="@+id/btnLike"
+                         android:theme="@style/TextAppearance.MaterialComponents.Button"
+                         android:backgroundTint="@color/white"
                          android:src="@drawable/ic_fav_border"
                          android:contentDescription="@string/description_like"/>
         </LinearLayout>

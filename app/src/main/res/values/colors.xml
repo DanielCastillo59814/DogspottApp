@@ -7,7 +7,11 @@
     <color name="colorAccentDark">#000e1a</color>
     <color name="colorAccentLight">#4d7599</color>
 
+    <color name="white_transparent">#ccFFFFFF</color>
+
     <color name="light_gray">#f0f0f0</color>
     <color name="dark_green">#000d02</color>
+    <color name="red">#9b2828</color>
+    <color name="white">#FFFFFF</color>
     <color name="dog_img">#00FFFFFF</color>
 </resources>
