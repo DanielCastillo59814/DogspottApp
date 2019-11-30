@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,8 @@ public class DetailsActivity extends AppCompatActivity {
     ImageView dog_img;
     TextView details_txt;
     TextView comments_field;
+    TextView comment_text;
+    Button send_comment_butt;
 
     public static final String DOG_ID = "dogid";
 
@@ -57,9 +61,40 @@ public class DetailsActivity extends AppCompatActivity {
         dog_img = findViewById(R.id.dog_img);
         details_txt = findViewById(R.id.details_txt);
         comments_field = findViewById(R.id.comments);
-
+        comment_text = findViewById(R.id.comment_text);
+        send_comment_butt = findViewById(R.id.send_comment_butt);
         Intent params = getIntent();
         dog_id = params.getStringExtra(DOG_ID);
+
+        send_comment_butt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String submission_url = "http://dogspott.000webhostapp.com/comentar.php?key"
+                        + Properties.Companion.getProperty(DetailsActivity.this, Properties.USER_KEY)
+                        + "&dog_id=" + dog_id + "&comentario=" + comment_text.getText();
+                Log.d("Submitting API request", submission_url);
+
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, submission_url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(!response.contains("failed") && !response.contains("null"))
+                            Toast.makeText(DetailsActivity.this, "Se ha comentado la publicacion exitosamente",
+                                    Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(DetailsActivity.this, "Error al enviar comentario", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(DetailsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                RequestQueue requestQueue = Volley.newRequestQueue(DetailsActivity.this);
+                requestQueue.add(stringRequest);
+            }
+        });
+
 
         String url = "http://dogspott.000webhostapp.com/detalles.php?key=" + Properties.Companion.getProperty(this, Properties.USER_KEY) + "&dog_id=" + dog_id;
 
