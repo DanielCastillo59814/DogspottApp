@@ -7,15 +7,15 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import com.a000webhostapp.dogspott.dogspottapp.utilities.Properties;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -28,9 +28,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.json.JSONObject;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,29 +72,63 @@ public class DetailsActivity extends AppCompatActivity {
         send_comment_butt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String submission_url = "http://dogspott.000webhostapp.com/comentar.php?key"
+                String submission_url = "http://dogspott.000webhostapp.com/comentar.php?key="
                         + Properties.Companion.getProperty(DetailsActivity.this, Properties.USER_KEY)
-                        + "&dog_id=" + dog_id + "&comentario=" + comment_text.getText();
-                Log.d("Submitting API request", submission_url);
+                        + "&dog_id=" + dog_id;
 
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, submission_url, new Response.Listener<String>() {
+                Log.d("Send Comment", submission_url);
+                RequestQueue MyRequestQueue = Volley.newRequestQueue(DetailsActivity.this);
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, submission_url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if(!response.contains("failed") && !response.contains("null"))
-                            Toast.makeText(DetailsActivity.this, "Se ha comentado la publicacion exitosamente",
-                                    Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(DetailsActivity.this, "Error al enviar comentario", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailsActivity.this, "Comentario subido exitosamente",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(DetailsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailsActivity.this, "Error al subir comentario",
+                                Toast.LENGTH_SHORT).show();
+                        Log.d("ERROR", error.toString());
                     }
-                });
+                }) {
+                    protected Map<String, String> getParams() {
+                        Map<String, String> MyData = new HashMap<String, String>();
+                        MyData.put("comentario", comment_text.getText().toString()); //Add the data you'd like to send to the server.
+                        return MyData;
+                    }
+                };
 
-                RequestQueue requestQueue = Volley.newRequestQueue(DetailsActivity.this);
-                requestQueue.add(stringRequest);
+            MyRequestQueue.add(stringRequest);
+
+                /*
+
+                try {
+                    URL url = new URL(submission_url);
+                    String type = "application/json";
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setRequestProperty("Content-Type", type);
+                    httpURLConnection.connect();
+
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("comentario", comment_text.getText());
+
+                    DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                    wr.writeBytes(jsonObject.toString());
+                    wr.flush();
+                    wr.close();
+                    Toast.makeText(DetailsActivity.this, "Comentario subido exitosamente",
+                            Toast.LENGTH_SHORT).show();
+                } catch (Exception ex) {
+                    Toast.makeText(DetailsActivity.this, "Error subiendo comentario",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                 */
+
             }
         });
 
@@ -134,6 +171,7 @@ public class DetailsActivity extends AppCompatActivity {
 
 
                     details_txt.setText("Nombre: " + name + ". Likes: " + likes);
+                    comments_field.setText("");
                     if (comentarios.isEmpty())
                         comments_field.setText("No hay comentarios...");
                     for (String com : comentarios) {
