@@ -26,10 +26,12 @@ import java.util.Map;
 
 import static com.a000webhostapp.dogspott.dogspottapp.R.layout.activity_login;
 
+/* Clase que valida el usuario y contraseña que se dan para
+intentar iniciar sesión */
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText edtUsuario, edtPassword;
+    EditText edtUsuario, edtPassword;   // Usuario y contraseña para iniciar sesión.
     Button btnLogin;
 
     @Override
@@ -64,27 +66,34 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /* Método que hace una consulta a la base de datos y verifica que la información
+    dada en la entrada coincida con algún registro */
     private void validaUsuario(String URL) {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
+            //Se construye la cadena que se usará para la consulta a la base de datos.
+
+            /* Método que analiza el resultado de la búsqueda */
             @Override
             public void onResponse(String response) {
-                if(!response.contains("failed")) {
+                if(!response.contains("failed")) { // En caso de que la consulta arroje algún resultado positivo.
                     JsonObject obj = (JsonObject) new JsonParser().parse(response);
                     JsonElement keye = obj.get("key");
                     String key = keye.getAsString();
                     Properties.Companion.setProperty(LoginActivity.this, Properties.USER_KEY, key);
                     Intent intent = new Intent(getApplicationContext(), FeedActivity.class);
                     startActivity(intent);
-                } else {
+                } else {    // Cuando los datos de entrada no coinciden con algún registro en la base de datos.
                     Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
+            /* Método que se encarga de reportar el error producido al hacer la consulta */
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
         }){
+            /* Método para obtener los datos de entrada (usuario y contraseña) */
             @Override protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("user", edtUsuario.getText().toString());
@@ -92,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
                 return super.getParams();
             }
         };
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
