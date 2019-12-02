@@ -18,7 +18,11 @@ import io.reactivex.schedulers.Schedulers
 
 import kotlinx.android.synthetic.main.activity_signup.*
 
+/**
+ * Actividad par registrar usuarios
+ */
 class SignupActivity : AppCompatActivity() {
+    // disposable para cancelar las peticiones en caso de terminar la aplicación
     val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +34,9 @@ class SignupActivity : AppCompatActivity() {
         btnRegistrarse.setOnClickListener { if (validate()) signup() }
     }
 
+    /**
+     * Llamada a la API para registrar un nuevo usuario
+     */
     fun signup() {
         layProgress.visibility = View.VISIBLE
         val se = {layProgress.visibility = View.GONE}
@@ -42,6 +49,9 @@ class SignupActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Handler de la llamada a la API
+     */
     fun onSignup(response: SimpleResponse) {
         layProgress.visibility = View.GONE
         if (response.status == "ok") {
@@ -59,6 +69,9 @@ class SignupActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Validación del formulario para registro
+     */
     fun validate(): Boolean {
         var pasa = true
         if (txtUsuario.text.toString().isEmpty()) {

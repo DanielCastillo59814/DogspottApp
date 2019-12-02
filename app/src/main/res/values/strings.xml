@@ -9,7 +9,7 @@
     <string name="log_server_error">Ocurrió un error en el servidor. Por favor, inténtalo más tarde</string>
     <string name="log_network_unavailable">Necesitas conexión a internet para poder continuar</string>
 
-    <string name="title_activity_feed">FeedActivity</string>
+    <string name="title_activity_feed">Actividad</string>
 
     <string name="description_like">Like</string>
     <string name="description_profile">Profile</string>
