@@ -51,6 +51,7 @@ class SignupActivity : AppCompatActivity() {
 
     /**
      * Handler de la llamada a la API
+     * @param response la respuesta de la API
      */
     fun onSignup(response: SimpleResponse) {
         layProgress.visibility = View.GONE
@@ -71,6 +72,7 @@ class SignupActivity : AppCompatActivity() {
 
     /**
      * Validación del formulario para registro
+     * @return True si el formulario se encuentra bien validado, False en otro caso
      */
     fun validate(): Boolean {
         var pasa = true

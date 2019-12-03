@@ -1,5 +1,9 @@
 package com.a000webhostapp.dogspott.dogspottapp.retro.models
 
+/**
+ * Clases modelo: representan entidades en la base de datos
+ */
+
 data class SimpleResponse(
     var status:String?,
     var message:String?

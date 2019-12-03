@@ -41,7 +41,27 @@
         <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
-                android:layout_height="96dp"
+                android:layout_height="36dp"
+                android:background="?android:attr/listDivider" />
+
+        <EditText
+                android:id="@+id/comment_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Escribir comentario.." />
+
+        <Button
+                android:id="@+id/send_comment_butt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enviar" />
+
+        <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
                 android:background="?android:attr/listDivider" />
 
         <TextView

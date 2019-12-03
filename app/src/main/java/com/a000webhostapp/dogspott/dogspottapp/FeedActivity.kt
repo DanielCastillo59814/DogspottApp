@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -22,8 +21,13 @@ import io.reactivex.schedulers.Schedulers
 
 import kotlinx.android.synthetic.main.activity_feed.*
 
+/**
+ * Actividad que muestra la lista de perros obtenidos
+ */
 class FeedActivity : AppCompatActivity() {
+    // Adaptador de la lista
     val feedAdapter = FeedAdapter()
+    // Disposable, para cancelar las llamadas a la API en caso de terminar la aplicación
     val disposable = CompositeDisposable()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +45,9 @@ class FeedActivity : AppCompatActivity() {
         getFeed()
     }
 
+    /**
+     * Llamada a la API, obtiene el Feed de perros
+     */
     fun getFeed() {
         val se = {swipe_refresh_layout.isRefreshing = false}
         if (State.isNetworkAvailable(this, main_view, this::getFeed, se))
@@ -53,11 +60,20 @@ class FeedActivity : AppCompatActivity() {
             )
     }
 
+    /**
+     * Handler de la llamada a la API
+     * @param response la lista de perros obtenida
+     */
     fun onGetFeed(response: List<Dog>) {
         feedAdapter.updateItems(response)
         swipe_refresh_layout.isRefreshing = false
     }
 
+    /**
+     * Llamada a la API, aumenta los likes del perro
+     * @param dog el perro a likear
+     * @param v el item del perro en la lista
+     */
     fun like(dog: Dog, v: View) {
         val previus = dog.likes
         dog.likes = dog.likes?.toInt()?.plus(1)?.toString() ?: "0"
@@ -73,24 +89,52 @@ class FeedActivity : AppCompatActivity() {
             )
     }
 
-    fun onLike(reponse: SimpleResponse) {
-
+    /**
+     * Handler de la llamada a la API
+     * @param response la respuesta de la API
+     */
+    fun onLike(response: SimpleResponse) {
+        if (response.status != "ok") {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.text_something_wrong)
+                .setMessage(response.message)
+                .setPositiveButton(R.string.action_aceptar, null)
+                .show()
+        }
     }
 
+    /**
+     * Clase adaptador para la lista
+     */
     inner class FeedAdapter: RecyclerView.Adapter<FeedAdapter.ViewHolder>(){
+        // muestra un item de "no hay elementos"
         val EMPTY_LIST = 0
+        // muestra una carta con la información del perro
         val NORMAL = 1
+        // lista de perros
         var feed: List<Dog> = ArrayList()
 
+        /**
+         * Método para refrescar la lista
+         * @param dogs la nueva lista de perros
+         */
         fun updateItems(dogs: List<Dog>) {
             feed = dogs
             notifyDataSetChanged()
         }
 
+        /**
+         * Método para saber si mostrar una tarjeta de perro o un mensaje de "no hay elementos"
+         * @param position la posición del perro en la lista
+         * @return EMPTY_LIST si la lista está vacía, NORMAL en otro caso
+         */
         override fun getItemViewType(position: Int): Int {
             return if(feed.isEmpty())EMPTY_LIST else NORMAL
         }
 
+        /**
+         * Actualiza el item con la información del perro
+         */
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             when(getItemViewType(position)){
                 EMPTY_LIST -> holder.v.findViewById<TextView>(R.id.text_empty).text = getString(R.string.text_no_feed)
@@ -101,8 +145,14 @@ class FeedActivity : AppCompatActivity() {
             }
         }
 
+        /**
+         * Regresa el número de perros en la lista
+         */
         override fun getItemCount(): Int = if(feed.isEmpty())1 else feed.size
 
+        /**
+         * Crea el item de la lista
+         */
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = when(viewType){
                 EMPTY_LIST -> LayoutInflater.from(parent.context).inflate(R.layout.viewholder_empty,parent,false)
@@ -111,8 +161,16 @@ class FeedActivity : AppCompatActivity() {
             return ViewHolder(view)
         }
 
+        /**
+         * Clase que representa el item de la lista
+         */
         inner class ViewHolder(val v: View): RecyclerView.ViewHolder(v){
+            // el perro a mostrar
             var dog: Dog? = null
+
+            /**
+             * Refresca la vista con la información del perro
+             */
             fun init(){
                 dog?.let{
                     v.findViewById<TextView>(R.id.text_name).text = it.name

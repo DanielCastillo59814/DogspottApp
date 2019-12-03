@@ -2,36 +2,70 @@ package com.a000webhostapp.dogspott.dogspottapp.utilities
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.gson.Gson
 
+/**
+ * Clase que maneja la persistencia en Android
+ */
 class Properties {
     companion object {
+        // Llave para el key obtenido por la API
         const val USER_KEY = "userkey"
-
+        // ubicación de las propiedades en persistencia
         const val DEFAULT_LOCATION:String = "dogspottstorage"
 
-        fun getProperty(c:Context, k:String):String{
-            val p:SharedPreferences = c.getSharedPreferences(DEFAULT_LOCATION,Context.MODE_PRIVATE)
-            val a = p.getString(k,"")!!
-            return a
+        /**
+         * Obtiene una propiedad guardada
+         * @param context el contexto de la aplicación
+         * @param key la llame asociada a la propiedad
+         * @return la propiedad guardada
+         */
+        fun getProperty(context:Context, key:String):String{
+            val p:SharedPreferences = context.getSharedPreferences(DEFAULT_LOCATION,Context.MODE_PRIVATE)
+            val value = p.getString(key,"")!!
+            return value
         }
-        fun setProperty(c:Context, k:String, v:String){
-            val p:SharedPreferences = c.getSharedPreferences(DEFAULT_LOCATION,Context.MODE_PRIVATE)
+
+        /**
+         * Guarda una propiedad
+         * @param context el contexto de la aplicación
+         * @param key la llave a asociar a la propiedad
+         * @param value la propiedad a guardar
+         */
+        fun setProperty(context:Context, key:String, value:String){
+            val p:SharedPreferences = context.getSharedPreferences(DEFAULT_LOCATION,Context.MODE_PRIVATE)
             val e:SharedPreferences.Editor = p.edit()
-            e.putString(k,v)
+            e.putString(key,value)
             e.apply()
         }
-        fun containsProperty(c:Context, k:String):Boolean{
-            return c.getSharedPreferences(DEFAULT_LOCATION,Context.MODE_PRIVATE).contains(k)
+
+        /**
+         * Verifica si una propiedad ya ha sido guardada
+         * @param context el contexto de la aplicación
+         * @param key la llave de la propiedad a verificar
+         * @return True si la llave ya se encuentra ocupada, False en otro caso
+         */
+        fun containsProperty(context:Context, key:String):Boolean{
+            return context.getSharedPreferences(DEFAULT_LOCATION,Context.MODE_PRIVATE).contains(key)
         }
-        fun removeProperty(c:Context,k:String){
-            val p:SharedPreferences = c.getSharedPreferences(DEFAULT_LOCATION,Context.MODE_PRIVATE)
+
+        /**
+         * Remueve una propiedad guardada
+         * @param context el contexto de la aplicación
+         * @param key la llave de la propiedad a remover
+         */
+        fun removeProperty(context:Context,key:String){
+            val p:SharedPreferences = context.getSharedPreferences(DEFAULT_LOCATION,Context.MODE_PRIVATE)
             val e:SharedPreferences.Editor = p.edit()
-            e.remove(k)
+            e.remove(key)
             e.apply()
         }
-        fun clearProperties(c:Context){
-            val p:SharedPreferences = c.getSharedPreferences(DEFAULT_LOCATION,Context.MODE_PRIVATE)
+
+        /**
+         * Limpia todas las propiedades
+         * @param context el contexto de la aplicación
+         */
+        fun clearProperties(context:Context){
+            val p:SharedPreferences = context.getSharedPreferences(DEFAULT_LOCATION,Context.MODE_PRIVATE)
             val e:SharedPreferences.Editor = p.edit()
             e.clear()
             e.apply()
